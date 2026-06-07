@@ -1,67 +1,84 @@
-<section class="section" id="create">
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<h2>🎲 Sign Guestbook & Mint NFT Ticket</h2>
+<title>IOPN Lucky Guestbook</title>
 
-<div style="max-width:800px;margin:auto;">
+<link rel="stylesheet" href="style.css">
 
-<textarea
-id="message"
-placeholder="Write your message for IOPN..."
-style="
-width:100%;
-height:120px;
-background:#111827;
-color:white;
-border:none;
-border-radius:12px;
-padding:15px;
-font-size:16px;
-"
-></textarea>
+<script src="https://unpkg.com/ethers@6.13.1/dist/ethers.umd.min.js"></script>
 
-<br><br>
+</head>
 
-<input
-type="text"
-id="metadata"
-placeholder="IPFS Metadata URI"
-class="search"
-style="width:100%;"
-/>
+<body>
 
-<br><br>
+<header>
 
-<button
-id="signGuestbook"
-class="primary"
-style="width:100%;"
->
-🚀 Sign & Mint Ticket
+<img src="assets/logo.png" class="logo">
+
+<h1>IOPN Lucky Guestbook</h1>
+
+<button id="connectBtn">
+Connect Wallet
 </button>
 
-</div>
+</header>
 
-</section><section class="section">
+<section class="hero">
 
-<h2>🏆 Lottery Statistics</h2>
+<h2>
+Sign the Guestbook &
+Receive an NFT 🎁
+</h2>
 
-<div class="stats">
-
-<div>
-<h2 id="participants">0</h2>
-<span>Participants</span>
-</div>
-
-<div>
-<h2 id="tickets">0</h2>
-<span>NFT Tickets</span>
-</div>
-
-<div>
-<h2>IOPN</h2>
-<span>Network</span>
-</div>
-
-</div>
+<p>
+Every signature mints a unique NFT on IOPN.
+</p>
 
 </section>
+
+<section class="card">
+
+<input
+id="message"
+placeholder="Write your message..."
+maxlength="100"
+/>
+
+<button id="signBtn">
+Sign Guestbook
+</button>
+
+<p id="status"></p>
+
+</section>
+
+<section>
+
+<h2>Recent Entries</h2>
+
+<div id="entries"></div>
+
+</section>
+
+<footer>
+
+<p>
+Powered by IOPN Blockchain
+</p>
+
+<a
+href="https://x.com/JoyboyOGC"
+target="_blank"
+>
+@JoyboyOGC
+</a>
+
+</footer>
+
+<script src="app.js"></script>
+
+</body>
+</html>
