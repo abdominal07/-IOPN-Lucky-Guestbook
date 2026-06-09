@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>IOPN Lucky Guestbook</title>
 
 <link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <script src="https://unpkg.com/ethers@6.13.1/dist/ethers.umd.min.js"></script>
 
@@ -14,11 +18,27 @@
 
 <body>
 
-<header>
+<header class="navbar">
 
-<img src="assets/logo.png" class="logo">
+<div class="brand">
 
-<h1>IOPN Lucky Guestbook</h1>
+<img
+src="assets/logo.png"
+class="logo"
+alt="IOPN Logo"
+/>
+
+<div>
+
+<h2>IOPN Lucky Guestbook</h2>
+
+<span>
+NFT • Guestbook • Lucky Draw
+</span>
+
+</div>
+
+</div>
 
 <button id="connectBtn">
 Connect Wallet
@@ -28,18 +48,106 @@ Connect Wallet
 
 <section class="hero">
 
-<h2>
-Sign the Guestbook &
-Receive an NFT 🎁
-</h2>
+<div class="hero-content">
+
+<h1>
+Sign the Future of IOPN
+</h1>
 
 <p>
-Every signature mints a unique NFT on IOPN.
+Every signature becomes an NFT permanently stored on-chain.
+Join the IOPN community and leave your mark forever.
 </p>
+
+<div class="hero-buttons">
+
+<button id="heroConnectBtn">
+Connect Wallet
+</button>
+
+<a href="#guestbook">
+
+<button class="secondary">
+Sign Guestbook
+</button>
+
+</a>
+
+</div>
+
+</div>
 
 </section>
 
-<section class="card">
+<section class="stats-section">
+
+<div class="stat-card">
+
+<h2 id="totalSignatures">
+0
+</h2>
+
+<p>Total Signatures</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2 id="totalNFTs">
+0
+</h2>
+
+<p>NFTs Minted</p>
+
+</div>
+
+<div class="stat-card">
+
+<h2>
+984
+</h2>
+
+<p>IOPN Chain</p>
+
+</div>
+
+</section>
+
+<section class="reward-section">
+
+<h2>
+🎁 NFT Reward
+</h2>
+
+<div class="reward-card">
+
+<img
+src="https://images.unsplash.com/photo-1639762681057-408e52192e55?w=1000"
+alt="NFT Reward"
+/>
+
+<h3>
+Lucky Guestbook NFT
+</h3>
+
+<p>
+Sign the Guestbook and receive your NFT on IOPN.
+</p>
+
+</div>
+
+</section>
+
+<section
+id="guestbook"
+class="guestbook-section"
+>
+
+<h2>
+✍️ Sign Guestbook
+</h2>
+
+<div class="card">
 
 <input
 id="message"
@@ -53,30 +161,88 @@ Sign Guestbook
 
 <p id="status"></p>
 
+</div>
+
 </section>
 
-<section>
+<section class="lucky-draw">
 
-<h2>Recent Entries</h2>
+<h2>
+🎲 Lucky Draw
+</h2>
 
-<div id="entries"></div>
+<p>
+Every participant joins the Lucky Draw.
+Future rewards can be distributed to random signers.
+</p>
+
+<div class="draw-box">
+
+<h1 id="participants">
+0
+</h1>
+
+<span>
+Participants
+</span>
+
+</div>
+
+</section>
+
+<section class="entries-section">
+
+<h2>
+🏆 Wall of Fame
+</h2>
+
+<div id="entries">
+
+</div>
 
 </section>
 
 <footer>
 
+<div>
+
+<h3>
+IOPN Lucky Guestbook
+</h3>
+
 <p>
 Powered by IOPN Blockchain
 </p>
 
+</div>
+
+<div>
+
 <a
 href="https://x.com/JoyboyOGC"
 target="_blank"
+class="x-link"
 >
-@JoyboyOGC
+𝕏 @JoyboyOGC
 </a>
 
+</div>
+
 </footer>
+
+<script>
+
+document
+.getElementById("heroConnectBtn")
+.addEventListener("click", () => {
+
+document
+.getElementById("connectBtn")
+.click();
+
+});
+
+</script>
 
 <script src="app.js"></script>
 
