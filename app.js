@@ -9,24 +9,21 @@ let contract;
 
 async function loadABI() {
 
-  const res =
-    await fetch("./abi.json");
-
+  const res = await fetch("./abi.json");
   return await res.json();
 
 }
 
 async function connectWallet() {
 
-  if(!window.ethereum){
+  if (!window.ethereum) {
 
-    alert("Install MetaMask");
-
+    alert("Install MetaMask / OKX Wallet");
     return;
 
   }
 
-  try{
+  try {
 
     const provider =
       new ethers.BrowserProvider(
@@ -70,6 +67,10 @@ async function connectWallet() {
 
     console.error(err);
 
+    alert(
+      "Wallet connection failed"
+    );
+
   }
 
 }
@@ -82,20 +83,41 @@ document
 .getElementById("signBtn")
 .onclick = async () => {
 
-  try{
+  try {
 
-    const message =
-      document
-      .getElementById("message")
-      .value;
+    if(!contract){
 
-    if(!message){
-
-      alert("Enter message");
+      alert(
+        "Connect wallet first"
+      );
 
       return;
 
     }
+
+    const message =
+      document
+      .getElementById("message")
+      .value
+      .trim();
+
+    if(!message){
+
+      alert(
+        "Write a message"
+      );
+
+      return;
+
+    }
+
+    const status =
+      document.getElementById(
+        "status"
+      );
+
+    status.innerHTML =
+      "⏳ Waiting for wallet confirmation...";
 
     const tx =
       await contract.signGuestbook(
@@ -103,17 +125,28 @@ document
         NFT_URI
       );
 
-    document
-      .getElementById("status")
-      .innerText =
-      "Transaction sent...";
+    status.innerHTML =
+      "🚀 Transaction sent...";
 
-    await tx.wait();
+    const receipt =
+      await tx.wait();
+
+    status.innerHTML =
+      `
+      🎉 NFT Minted Successfully
+      <br>
+      Tx:
+      <a
+      href="https://testnet.iopn.tech/tx/${receipt.hash}"
+      target="_blank"
+      >
+      View Transaction
+      </a>
+      `;
 
     document
-      .getElementById("status")
-      .innerText =
-      "NFT Minted 🎉";
+      .getElementById("message")
+      .value = "";
 
     loadEntries();
 
@@ -125,8 +158,8 @@ document
 
     document
       .getElementById("status")
-      .innerText =
-      "Transaction Failed";
+      .innerHTML =
+      "❌ Transaction Failed";
 
   }
 
@@ -135,6 +168,8 @@ document
 async function loadEntries(){
 
   try{
+
+    if(!contract) return;
 
     const total =
       await contract.totalEntries();
@@ -147,14 +182,35 @@ async function loadEntries(){
     container.innerHTML = "";
 
     for(
+
       let i =
-      Number(total)-1;
+      Number(total) - 1;
+
       i >= 0;
+
       i--
+
     ){
 
       const entry =
         await contract.getEntry(i);
+
+      const wallet =
+        entry[0];
+
+      const message =
+        entry[1];
+
+      const timestamp =
+        Number(entry[2]);
+
+      const tokenId =
+        Number(entry[3]);
+
+      const date =
+        new Date(
+          timestamp * 1000
+        ).toLocaleString();
 
       const div =
         document.createElement(
@@ -166,15 +222,54 @@ async function loadEntries(){
 
       div.innerHTML =
       `
-      <p>${entry[1]}</p>
+      <div class="entry-top">
+
+      <span class="wallet">
+
+      ${wallet.slice(0,6)}
+      ...
+      ${wallet.slice(-4)}
+
+      </span>
+
+      <span class="token">
+
+      NFT #${tokenId}
+
+      </span>
+
+      </div>
+
+      <p class="entry-message">
+
+      ${message}
+
+      </p>
+
       <small>
-      ${entry[0]}
+
+      ${date}
+
       </small>
+
+      <br>
+
+      <a
+      href="https://ipfs.io/ipfs/QmbCTnJTJb46b4Z6skPXGBSeXfu9aMSdqe5hE9TwyrJukt"
+      target="_blank"
+      >
+      View NFT Metadata
+      </a>
+
       `;
 
-      container.appendChild(div);
+      container.appendChild(
+        div
+      );
 
-      if(container.children.length >= 20)
+      if(
+        container.children.length >= 20
+      )
       break;
 
     }
@@ -188,3 +283,13 @@ async function loadEntries(){
   }
 
 }
+
+setInterval(() => {
+
+  if(contract){
+
+    loadEntries();
+
+  }
+
+}, 30000);
