@@ -1,250 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>IOPN Lucky Guestbook</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<script src="https://unpkg.com/ethers@6.13.1/dist/ethers.umd.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IOPN Lucky Guestbook — NFT DApp</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
-<header class="navbar">
-
-<div class="brand">
-
-<img
-src="assets/logo.png"
-class="logo"
-alt="IOPN Logo"
-/>
-
-<div>
-
-<h2>IOPN Lucky Guestbook</h2>
-
-<span>
-NFT • Guestbook • Lucky Draw
-</span>
-
-</div>
-
-</div>
-
-<button id="connectBtn">
-Connect Wallet
-</button>
-
-</header>
-
-<section class="hero">
-
-<div class="hero-content">
-
-<h1>
-Sign the Future of IOPN
-</h1>
-
-<p>
-Every signature becomes an NFT permanently stored on-chain.
-Join the IOPN community and leave your mark forever.
-</p>
-
-<div class="hero-buttons">
-
-<button id="heroConnectBtn">
-Connect Wallet
-</button>
-
-<a href="#guestbook">
-
-<button class="secondary">
-Sign Guestbook
-</button>
-
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-<section class="stats-section">
-
-<div class="stat-card">
-
-<h2 id="totalSignatures">
-0
-</h2>
-
-<p>Total Signatures</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2 id="totalNFTs">
-0
-</h2>
-
-<p>NFTs Minted</p>
-
-</div>
-
-<div class="stat-card">
-
-<h2>
-984
-</h2>
-
-<p>IOPN Chain</p>
-
-</div>
-
-</section>
-
-<section class="reward-section">
-
-<h2>
-🎁 NFT Reward
-</h2>
-
-<div class="reward-card">
-
-<img
-src="https://images.unsplash.com/photo-1639762681057-408e52192e55?w=1000"
-alt="NFT Reward"
-/>
-
-<h3>
-Lucky Guestbook NFT
-</h3>
-
-<p>
-Sign the Guestbook and receive your NFT on IOPN.
-</p>
-
-</div>
-
-</section>
-
-<section
-id="guestbook"
-class="guestbook-section"
->
-
-<h2>
-✍️ Sign Guestbook
-</h2>
-
-<div class="card">
-
-<input
-id="message"
-placeholder="Write your message..."
-maxlength="100"
-/>
-
-<button id="signBtn">
-Sign Guestbook
-</button>
-
-<p id="status"></p>
-
-</div>
-
-</section>
-
-<section class="lucky-draw">
-
-<h2>
-🎲 Lucky Draw
-</h2>
-
-<p>
-Every participant joins the Lucky Draw.
-Future rewards can be distributed to random signers.
-</p>
-
-<div class="draw-box">
-
-<h1 id="participants">
-0
-</h1>
-
-<span>
-Participants
-</span>
-
-</div>
-
-</section>
-
-<section class="entries-section">
-
-<h2>
-🏆 Wall of Fame
-</h2>
-
-<div id="entries">
-
-</div>
-
-</section>
-
-<footer>
-
-<div>
-
-<h3>
-IOPN Lucky Guestbook
-</h3>
-
-<p>
-Powered by IOPN Blockchain
-</p>
-
-</div>
-
-<div>
-
-<a
-href="https://x.com/JoyboyOGC"
-target="_blank"
-class="x-link"
->
-𝕏 @JoyboyOGC
-</a>
-
-</div>
-
-</footer>
-
-<script>
-
-document
-.getElementById("heroConnectBtn")
-.addEventListener("click", () => {
-
-document
-.getElementById("connectBtn")
-.click();
-
-});
-
-</script>
-
-<script src="app.js"></script>
-
+  <!-- ===== ANIMATED BACKGROUND ===== -->
+  <div class="bg-grid"></div>
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+
+  <!-- ===== TOAST CONTAINER ===== -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <div class="brand">
+        <div class="logo-wrap">
+          <img src="assets/logo.png" alt="IOPN" class="logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-fallback" style="display:none">IOPN</div>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">IOPN</span>
+          <span class="brand-tag">Lucky Guestbook</span>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a href="#stats" class="nav-link">Stats</a>
+        <a href="#reward" class="nav-link">NFT</a>
+        <a href="#guestbook" class="nav-link">Sign</a>
+        <a href="#wall" class="nav-link">Wall</a>
+      </div>
+
+      <button id="connectBtn" class="btn-connect">
+        <span class="btn-pulse"></span>
+        <span class="btn-label">Connect Wallet</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== WALLET MODAL ===== -->
+  <div id="walletModal" class="modal-overlay">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3>Connect Wallet</h3>
+          <p class="modal-subtitle">Choose a wallet to connect to IOPN Testnet</p>
+        </div>
+        <button class="modal-close" id="closeModal">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <button class="wallet-option" data-wallet="metamask">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg" alt="MetaMask" class="wallet-icon">
+          <div class="wallet-info">
+            <h4>MetaMask</h4>
+            <p>Popular browser wallet</p>
+          </div>
+          <span class="wallet-popular">Popular</span>
+          <svg class="wallet-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="wallet-option" data-wallet="okx">
+          <div class="wallet-icon-circle okx-icon">OKX</div>
+          <div class="wallet-info">
+            <h4>OKX Wallet</h4>
+            <p>Multi-chain DeFi wallet</p>
+          </div>
+          <svg class="wallet-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="wallet-option" data-wallet="injected">
+          <div class="wallet-icon-circle">🦊</div>
+          <div class="wallet-info">
+            <h4>Browser Wallet</h4>
+            <p>Any EVM-compatible wallet</p>
+          </div>
+          <svg class="wallet-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <p>By connecting, you agree to the <a href="#">Terms of Service</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WRONG NETWORK BANNER ===== -->
+  <div id="wrongNetwork" class="network-banner">
+    <div class="network-banner-inner">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M9 1L1 16H17L9 1Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9 7V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="9" cy="13.5" r="0.75" fill="currentColor"/>
+      </svg>
+      <span>Wrong network detected. Please switch to IOPN Testnet.</span>
+      <button id="switchNetworkBtn" class="btn-switch">Switch Network</button>
+    </div>
+  </div>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-chip">
+          <span class="chip-dot"></span>
+          Live on IOPN Testnet
+        </div>
+        <h1 class="hero-title">
+          Sign the<br>
+          <span class="gradient-text">Future</span> of IOPN
+        </h1>
+        <p class="hero-desc">
+          Every signature becomes a permanent on-chain NFT collectible.
+          Join the community, leave your mark, and enter the Lucky Draw.
+        </p>
+        <div class="hero-actions">
+          <button id="heroConnectBtn" class="btn-primary btn-xl">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M15 6V3H12M3 12V15H6M15 3L10 8M3 15L8 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Connect Wallet
+          </button>
+          <a href="#guestbook" class="btn-ghost btn-xl">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Sign Guestbook
+          </a>
+        </div>
+        <div class="hero-social-proof">
+          <div class="avatar-stack">
+            <div class="avatar-item" style="background:#00c3ff">A</div>
+            <div class="avatar-item" style="background:#ff6b6b">B</div>
+            <div class="avatar-item" style="background:#ffd93d">C</div>
+            <div class="avatar-item" style="background:#6bff9e">D</div>
+          </div>
+          <span><strong id="heroCount">0</strong> community members already signed</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="nft-showcase">
+          <div class="nft-card-3d">
+            <div class="nft-glow"></div>
+            <img
+              src="https://gateway.pinata.cloud/ipfs/QmbCTnJTJb46b4Z6skPXGBSeXfu9aMSdqe5hE9TwyrJukt"
+              alt="Lucky Guestbook NFT"
+              class="nft-image"
+              onerror="this.src='https://via.placeholder.com/400x400/0a1628/00c3ff?text=IOPN+NFT'"
+            >
+            <div class="nft-badge">Free Mint</div>
+          </div>
+          <div class="nft-float-card nft-float-1">
+            <span class="float-icon">🖼️</span>
+            <div>
+              <strong>NFT Reward</strong>
+              <small>On-chain collectible</small>
+            </div>
+          </div>
+          <div class="nft-float-card nft-float-2">
+            <span class="float-icon">⛓️</span>
+            <div>
+              <strong>IOPN Chain</strong>
+              <small>Chain ID: 984</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section id="stats" class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 1L14 8H21L15 12.5L17 20L11 15.5L5 20L7 12.5L1 8H8L11 1Z" stroke="#00c3ff" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 id="totalSignatures" class="stat-value">0</h2>
+        <p class="stat-label">Total Signatures</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="3" y="3" width="16" height="16" rx="3" stroke="#00c3ff" stroke-width="1.5"/>
+            <circle cx="11" cy="11" r="4" stroke="#00c3ff" stroke-width="1.5"/>
+            <circle cx="16" cy="6" r="1.5" fill="#00c3ff"/>
+          </svg>
+        </div>
+        <h2 id="totalNFTs" class="stat-value">0</h2>
+        <p class="stat-label">NFTs Minted</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 2L2 7V15L11 20L20 15V7L11 2Z" stroke="#00c3ff" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M2 7L11 12L20 7" stroke="#00c3ff" stroke-width="1.5"/>
+            <path d="M11 12V20" stroke="#00c3ff" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h2 class="stat-value">984</h2>
+        <p class="stat-label">Chain ID</p>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 1V6M11 16V21M1 11H6M16 11H21" stroke="#00c3ff" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="11" cy="11" r="5" stroke="#00c3ff" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h2 class="stat-value">100%</h2>
+        <p class="stat-label">On-Chain</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NFT REWARD ===== -->
+  <section id="reward" class="reward-section">
+    <div class="section-header">
+      <span class="section-chip">🎁 Reward</span>
+      <h2 class="section-title">NFT Reward</h2>
+      <p class="section-desc">Sign the guestbook and receive a unique on-chain NFT collectible on IOPN</p>
+    </div>
+    <div class="reward-card">
+      <div class="reward-image-wrap">
+        <img
+          src="https://gateway.pinata.cloud/ipfs/QmbCTnJTJb46b4Z6skPXGBSeXfu9aMSdqe5hE9TwyrJukt"
+          alt="Lucky Guestbook NFT"
+          onerror="this.src='https://via.placeholder.com/500x500/0a1628/00c3ff?text=IOPN+NFT'"
+        >
+        <div class="reward-image-badge">Free Mint</div>
+      </div>
+      <div class="reward-details">
+        <span class="reward-chain-badge">
+          <span class="chain-dot"></span>
+          IOPN Testnet
+        </span>
+        <h3>Lucky Guestbook NFT</h3>
+        <p>Every signature mints a unique NFT collectible directly on IOPN Chain. Your message lives forever on-chain as part of the community wall.</p>
+        <div class="reward-features">
+          <div class="feature-item">
+            <span class="feature-emoji">🎉</span>
+            <div>
+              <strong>Free to Mint</strong>
+              <small>No cost, just sign</small>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-emoji">⛓️</span>
+            <div>
+              <strong>On-Chain</strong>
+              <small>Permanent storage</small>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-emoji">🖼️</span>
+            <div>
+              <strong>IPFS</strong>
+              <small>Decentralized metadata</small>
+            </div>
+          </div>
+        </div>
+        <a href="https://gateway.pinata.cloud/ipfs/QmbCTnJTJb46b4Z6skPXGBSeXfu9aMSdqe5hE9TwyrJukt" target="_blank" class="reward-link">
+          View NFT Metadata
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M5 2H12V9M12 2L3 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GUESTBOOK ===== -->
+  <section id="guestbook" class="guestbook-section">
+    <div class="section-header">
+      <span class="section-chip">✍️ Sign</span>
+      <h2 class="section-title">Sign Guestbook</h2>
+      <p class="section-desc">Leave your mark on IOPN forever and mint your NFT</p>
+    </div>
+    <div class="sign-card">
+      <div class="sign-card-top">
+        <div class="sign-avatar">
+          <img
+            src="https://gateway.pinata.cloud/ipfs/QmbCTnJTJb46b4Z6skPXGBSeXfu9aMSdqe5hE9TwyrJukt"
+            alt="NFT"
+            onerror="this.src='https://via.placeholder.com/48/0a1628/00c3ff?text=N'"
+          >
+        </div>
+        <div class="sign-info">
+          <strong>Write your message</strong>
+          <span>It will be stored permanently on IOPN</span>
+        </div>
+        <span class="char-counter"><span id="charCount">0</span>/100</span>
+      </div>
+      <div class="input-wrap">
+        <input id="message" placeholder="Write your message to the IOPN community..." maxlength="100">
+      </div>
+      <button id="signBtn" class="btn-primary btn-full btn-xl">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M3 15L15 3M15 3H7M15 3V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="btn-text">Mint My NFT</span>
+      </button>
+      <div id="status"></div>
+    </div>
+  </section>
+
+  <!-- ===== LUCKY DRAW ===== -->
+  <section class="lucky-section">
+    <div class="section-header">
+      <span class="section-chip">🎲 Draw</span>
+      <h2 class="section-title">Lucky Draw</h2>
+      <p class="section-desc">Every signature enters you into future reward draws</p>
+    </div>
+    <div class="lucky-card">
+      <div class="lucky-visual">
+        <div class="lucky-circle">
+          <svg width="60" height="60" viewBox="0 0 60 60" fill="none" class="lucky-icon-spin">
+            <path d="M30 5L35 20H50L38 29L42 45L30 35L18 45L22 29L10 20H25L30 5Z" stroke="rgba(0,195,255,0.3)" stroke-width="1.5" fill="rgba(0,195,255,0.05)"/>
+          </svg>
+          <h2 id="participants">0</h2>
+        </div>
+        <span class="lucky-label">Participants</span>
+      </div>
+      <div class="lucky-info">
+        <h3>Join the Lucky Draw</h3>
+        <p>Every participant is automatically entered into the Lucky Draw. Future rewards and NFTs will be distributed to randomly selected signers from the community wall.</p>
+        <div class="lucky-features">
+          <div class="lucky-feat">
+            <span class="lucky-feat-icon">🎫</span>
+            <span>1 Signature = 1 Entry</span>
+          </div>
+          <div class="lucky-feat">
+            <span class="lucky-feat-icon">🏆</span>
+            <span>Random Winner Selection</span>
+          </div>
+          <div class="lucky-feat">
+            <span class="lucky-feat-icon">💎</span>
+            <span>Exclusive Rewards</span>
+          </div>
+        </div>
+        <a href="#guestbook" class="btn-ghost">Sign Now →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WALL OF FAME ===== -->
+  <section id="wall" class="wall-section">
+    <div class="section-header">
+      <span class="section-chip">🏆 Wall</span>
+      <h2 class="section-title">Community Wall <span id="liveCount" class="live-count">0</span></h2>
+      <p class="section-desc">Latest community members who signed the IOPN Guestbook</p>
+    </div>
+    <div id="entries" class="wall-grid"></div>
+    <div id="loadingEntries" class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading community entries...</p>
+    </div>
+    <div id="emptyState" class="empty-state" style="display:none">
+      <div class="empty-icon">📝</div>
+      <h3>No entries yet</h3>
+      <p>Be the first to sign the IOPN Guestbook!</p>
+      <a href="#guestbook" class="btn-primary">Sign Now</a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo-wrap">
+          <img src="assets/logo.png" alt="IOPN" class="footer-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-fallback-sm" style="display:none">I</div>
+        </div>
+        <div>
+          <strong>IOPN Lucky Guestbook</strong>
+          <p>NFT Guestbook + Lucky Draw on IOPN Blockchain</p>
+        </div>
+      </div>
+      <div class="footer-links">
+        <a href="https://testnet.iopn.tech" target="_blank" class="footer-link">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M1 7H13M7 1C9.5 3.5 9.5 10.5 7 13M7 1C4.5 3.5 4.5 10.5 7 13" stroke="currentColor" stroke-width="1.2"/>
+          </svg>
+          Explorer
+        </a>
+        <a href="https://x.com/JoyboyOGC" target="_blank" class="footer-link">
+          𝕏 @JoyboyOGC
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 IOPN Lucky Guestbook. Built with ❤️ on IOPN Testnet.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/ethers@6.13.1/dist/ethers.umd.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
